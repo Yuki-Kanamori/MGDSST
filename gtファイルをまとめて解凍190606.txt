@@ -1,0 +1,13 @@
+18-0218:m06 Yuki$ pwd
+(base) 18-0218:m11 Yuki$ cd /Users/Yuki/Dropbox/SST/m12
+(base) 18-0218:m12 Yuki$ find ./ -type f -name "*.gz" -exec gunzip {} \;
+
+#####
+ディレクトリ（フォルダ）の作成
+(base) 18-0218:SST Yuki$ mkdir m04
+
+#####
+フォルダとその中身を警告なしで削除
+(base) 18-0218:SST Yuki$ rm -rf m04
+-rだと警告あり
+-fだとファイルを警告なしで削除

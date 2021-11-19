@@ -1,0 +1,274 @@
+###may###
+setwd("C:/kana/SST/m5")
+widths <- rep(3, each = 1440)
+
+readfiles <- function(x){
+  df <- read.fwf(x,
+                 width = widths,
+                 skip = 1)
+}
+fl <- list.files(path = "C:/kana/SST/m5", full.names = T)
+length(fl)
+31*36 #31days per month * 36years
+fl[32:100]
+
+#データの切り取り部分を選択する
+lat <- data.frame(seq(89.875, -89.875, -0.25))
+colnames(lat) <- "lat"
+lat$tag <- rep(1:720)
+lat2 <- lat[lat$lat > 33 & lat$lat < 41, ]
+lon <- data.frame(seq(359.875, 0, -0.25))
+colnames(lon) <- "lon"
+lon$tag <- rep(1:1440)
+lon2 <- lon[lon$lon > 134.5 & lon$lon < 151, ]
+
+fl[33]
+df_m5 <- as.data.frame(NULL)
+for(i in 1:length(fl)){
+  df <- readfiles(fl[i])
+  df2 <- df[197:228, 837:902]
+  df_m5 <- rbind(df_m5, df2)
+}
+DF_m5 <- data.frame(df_m5)
+write.csv(DF_m5, "DF_m5.csv")
+
+#df_1 <- readfiles(fl[1])
+#df2 <- df_1[197:228, 837:902]
+#df_m5 <- rbind(df_m5, df2)
+#df_2 <- readfiles(fl[2])
+#df2 <- df_2[197:228, 837:902]
+#df_m5_2 <- rbind(df_m5, df2)
+fl[32]
+setwd("C:/kana")
+DF_m5 <- read.csv("DF_m5.csv")
+DF_m5 <- DF_m5[, -1]
+31*36*32 #31days per month * 36years * 32rows
+###データにラベルをつけていく
+y2017 <- DF_m5[1:(32*31), ] #1日は32行で1月は31日
+ny2017 <- DF_m5[-(1:(32*31)), ]
+nrow(y2017)+nrow(ny2017)
+#2017
+vec17 <- as.data.frame(NULL)
+for(i in 1:ncol(df2)){
+  vec <- matrix(y2017[, i], ncol = 1)
+  vec17 <- rbind(vec17, vec)
+}
+nrow(vec17) - 32*66*31 #検算
+vec17[, 2] <- 2017 #年
+vec17[, 3] <- 5 #月
+#vec17[, 4] <- rep(1:31, each = ncol(df2)*nrow(df2)) #日 間違っとる
+vec17[, 4] <- rep(1:31, each = nrow(df2)) #日
+vec17[, 5] <- rep(1:nrow(df2)) #緯度
+vec17[, 6] <- rep(1:ncol(df2), each = nrow(df2)*31) #経度
+colnames(vec17) <- c("sst", "year", "month", "day", "lat_tag", "lon_tag")
+# !=2017
+vecn17 <- as.data.frame(NULL)
+for(i in 1:ncol(df2)){
+  vec <- matrix(ny2017[, i], ncol = 1)
+  vecn17 <- rbind(vecn17, vec)
+}
+nrow(vecn17) - 32*66*31*35 #検算
+vecn17[, 2] <- rep(1982:2016, each = nrow(df2)*31) #年
+vecn17[, 3] <- 5 #月
+vecn17[, 4] <- rep(1:31, each = nrow(df2)) #日
+vecn17[, 5] <- rep(1:nrow(df2)) #緯度
+vecn17[, 6] <- rep(1:ncol(df2), each = nrow(ny2017)) #経度
+
+#v <- data.frame(matrix(0, ncol = 1, nrow = 90))
+#v[, 2] <- data.frame(rep(2000:2014, each = 3))
+
+#vecn17[, 2] <- rep(1982:2016, each = (ncol(df2)*nrow(df2)*31)) #年
+#vecn17[, 3] <- 5 #月
+#vecn17[, 4] <- rep(1:31, each = ncol(df2)*nrow(df2)) #日
+#vecn17[, 5] <- rep(1:nrow(df2)) #緯度
+#vecn17[, 6] <- rep(1:ncol(df2), each = nrow(df2)) #経度
+colnames(vecn17) <- c("sst", "year", "month", "day", "lat_tag", "lon_tag")
+sst <- rbind(vecn17, vec17)
+lat2$lat_tag <- rep(1:nrow(lat2))
+lon2$lon_tag <- rep(1:nrow(lon2))
+sst <- merge(sst, lat2, by = "lat_tag")
+sst <- merge(sst, lon2, by = "lon_tag")
+sst2 <- sst[, c("sst", "year", "month", "day", "lat", "lon")]
+sst2$sst <- sst2$sst * 0.1
+write.csv(sst2, "sst_may2.csv", fileEncoding = "CP932")
+
+
+###march###
+setwd("C:/kana")
+DF_m3 <- read.csv("DF_m3.csv")
+DF_m3 <- DF_m3[, -1]
+31*36*32 #31days per month * 36years * 32rows
+###データにラベルをつけていく
+y2017 <- DF_m3[1:(32*31), ] #1日は32行で1月は31日
+ny2017 <- DF_m3[-(1:(32*31)), ]
+nrow(y2017)+nrow(ny2017)
+#2017
+vec17 <- as.data.frame(NULL)
+for(i in 1:ncol(df2)){
+  vec <- matrix(y2017[, i], ncol = 1)
+  vec17 <- rbind(vec17, vec)
+}
+nrow(vec17) - 32*66*31 #検算
+vec17[, 2] <- 2017 #年
+vec17[, 3] <- 3 #月
+#vec17[, 4] <- rep(1:31, each = ncol(df2)*nrow(df2)) #日 間違っとる
+vec17[, 4] <- rep(1:31, each = nrow(df2)) #日
+vec17[, 5] <- rep(1:nrow(df2)) #緯度
+vec17[, 6] <- rep(1:ncol(df2), each = nrow(df2)*31) #経度
+colnames(vec17) <- c("sst", "year", "month", "day", "lat_tag", "lon_tag")
+# !=2017
+vecn17 <- as.data.frame(NULL)
+for(i in 1:ncol(df2)){
+  vec <- matrix(ny2017[, i], ncol = 1)
+  vecn17 <- rbind(vecn17, vec)
+}
+nrow(vecn17) - 32*66*31*35 #検算
+vecn17[, 2] <- rep(1982:2016, each = nrow(df2)*31) #年
+vecn17[, 3] <- 3 #月
+vecn17[, 4] <- rep(1:31, each = nrow(df2)) #日
+vecn17[, 5] <- rep(1:nrow(df2)) #緯度
+vecn17[, 6] <- rep(1:ncol(df2), each = nrow(ny2017)) #経度
+colnames(vecn17) <- c("sst", "year", "month", "day", "lat_tag", "lon_tag")
+sst <- rbind(vecn17, vec17)
+lat2$lat_tag <- rep(1:nrow(lat2))
+lon2$lon_tag <- rep(1:nrow(lon2))
+sst <- merge(sst, lat2, by = "lat_tag")
+sst <- merge(sst, lon2, by = "lon_tag")
+sst2 <- sst[, c("sst", "year", "month", "day", "lat", "lon")]
+sst2$sst <- sst2$sst * 0.1
+write.csv(sst2, "sst_mar2.csv", fileEncoding = "CP932")
+
+###april###
+setwd("C:/kana")
+DF_m4 <- read.csv("DF_m4.csv")
+DF_m4 <- DF_m4[, -1]
+30*36*32 #31days per month * 36years * 32rows
+###データにラベルをつけていく
+y2017 <- DF_m4[1:(32*30), ] #1日は32行で1月は31日
+ny2017 <- DF_m4[-(1:(32*30)), ]
+nrow(y2017)+nrow(ny2017)
+#2017
+vec17 <- as.data.frame(NULL)
+for(i in 1:ncol(df2)){
+  vec <- matrix(y2017[, i], ncol = 1)
+  vec17 <- rbind(vec17, vec)
+}
+nrow(vec17) - 32*66*30 #検算
+vec17[, 2] <- 2017 #年
+vec17[, 3] <- 4 #月
+#vec17[, 4] <- rep(1:31, each = ncol(df2)*nrow(df2)) #日 間違っとる
+vec17[, 4] <- rep(1:30, each = nrow(df2)) #日
+vec17[, 5] <- rep(1:nrow(df2)) #緯度
+vec17[, 6] <- rep(1:ncol(df2), each = nrow(df2)*30) #経度
+colnames(vec17) <- c("sst", "year", "month", "day", "lat_tag", "lon_tag")
+# !=2017
+vecn17 <- as.data.frame(NULL)
+for(i in 1:ncol(df2)){
+  vec <- matrix(ny2017[, i], ncol = 1)
+  vecn17 <- rbind(vecn17, vec)
+}
+nrow(vecn17) - 32*66*30*35 #検算
+vecn17[, 2] <- rep(1982:2016, each = nrow(df2)*30) #年
+vecn17[, 3] <- 4 #月
+vecn17[, 4] <- rep(1:30, each = nrow(df2)) #日
+vecn17[, 5] <- rep(1:nrow(df2)) #緯度
+vecn17[, 6] <- rep(1:ncol(df2), each = nrow(ny2017)) #経度
+colnames(vecn17) <- c("sst", "year", "month", "day", "lat_tag", "lon_tag")
+sst <- rbind(vecn17, vec17)
+lat2$lat_tag <- rep(1:nrow(lat2))
+lon2$lon_tag <- rep(1:nrow(lon2))
+sst <- merge(sst, lat2, by = "lat_tag")
+sst <- merge(sst, lon2, by = "lon_tag")
+sst2 <- sst[, c("sst", "year", "month", "day", "lat", "lon")]
+sst2$sst <- sst2$sst * 0.1
+write.csv(sst2, "sst_apr2.csv", fileEncoding = "CP932")
+
+###jun###
+setwd("C:/kana")
+DF_m6 <- read.csv("DF_m6.csv")
+DF_m6 <- DF_m6[, -1]
+30*36*32 #30days per month * 36years * 32rows
+###データにラベルをつけていく
+y2017 <- DF_m6[1:(32*30), ] #1日は32行で1月は30日
+ny2017 <- DF_m6[-(1:(32*30)), ]
+nrow(y2017)+nrow(ny2017)
+#2017
+vec17 <- as.data.frame(NULL)
+for(i in 1:ncol(df2)){
+  vec <- matrix(y2017[, i], ncol = 1)
+  vec17 <- rbind(vec17, vec)
+}
+nrow(vec17) - 32*66*30 #検算
+vec17[, 2] <- 2017 #年
+vec17[, 3] <- 6 #月
+#vec17[, 4] <- rep(1:31, each = ncol(df2)*nrow(df2)) #日 間違っとる
+vec17[, 4] <- rep(1:30, each = nrow(df2)) #日
+vec17[, 5] <- rep(1:nrow(df2)) #緯度
+vec17[, 6] <- rep(1:ncol(df2), each = nrow(df2)*30) #経度
+colnames(vec17) <- c("sst", "year", "month", "day", "lat_tag", "lon_tag")
+# !=2017
+vecn17 <- as.data.frame(NULL)
+for(i in 1:ncol(df2)){
+  vec <- matrix(ny2017[, i], ncol = 1)
+  vecn17 <- rbind(vecn17, vec)
+}
+nrow(vecn17) - 32*66*30*35 #検算
+vecn17[, 2] <- rep(1982:2016, each = nrow(df2)*30) #年
+vecn17[, 3] <- 6 #月
+vecn17[, 4] <- rep(1:30, each = nrow(df2)) #日
+vecn17[, 5] <- rep(1:nrow(df2)) #緯度
+vecn17[, 6] <- rep(1:ncol(df2), each = nrow(ny2017)) #経度
+colnames(vecn17) <- c("sst", "year", "month", "day", "lat_tag", "lon_tag")
+sst <- rbind(vecn17, vec17)
+lat2$lat_tag <- rep(1:nrow(lat2))
+lon2$lon_tag <- rep(1:nrow(lon2))
+sst <- merge(sst, lat2, by = "lat_tag")
+sst <- merge(sst, lon2, by = "lon_tag")
+sst2 <- sst[, c("sst", "year", "month", "day", "lat", "lon")]
+sst2$sst <- sst2$sst * 0.1
+write.csv(sst2, "sst_jun2.csv", fileEncoding = "CP932")
+
+###july###
+setwd("C:/kana")
+DF_m7 <- read.csv("DF_m7.csv")
+DF_m7 <- DF_m7[, -1]
+31*36*32 #31days per month * 36years * 32rows
+###データにラベルをつけていく
+y2017 <- DF_m7[1:(32*31), ] #1日は32行で1月は31日
+ny2017 <- DF_m7[-(1:(32*31)), ]
+nrow(y2017)+nrow(ny2017)
+#2017
+vec17 <- as.data.frame(NULL)
+for(i in 1:ncol(df2)){
+  vec <- matrix(y2017[, i], ncol = 1)
+  vec17 <- rbind(vec17, vec)
+}
+nrow(vec17) - 32*66*31 #検算
+vec17[, 2] <- 2017 #年
+vec17[, 3] <- 7 #月
+#vec17[, 4] <- rep(1:31, each = ncol(df2)*nrow(df2)) #日 間違っとる
+vec17[, 4] <- rep(1:31, each = nrow(df2)) #日
+vec17[, 5] <- rep(1:nrow(df2)) #緯度
+vec17[, 6] <- rep(1:ncol(df2), each = nrow(df2)*31) #経度
+colnames(vec17) <- c("sst", "year", "month", "day", "lat_tag", "lon_tag")
+# !=2017
+vecn17 <- as.data.frame(NULL)
+for(i in 1:ncol(df2)){
+  vec <- matrix(ny2017[, i], ncol = 1)
+  vecn17 <- rbind(vecn17, vec)
+}
+nrow(vecn17) - 32*66*31*35 #検算
+vecn17[, 2] <- rep(1982:2016, each = nrow(df2)*31) #年
+vecn17[, 3] <- 7 #月
+vecn17[, 4] <- rep(1:31, each = nrow(df2)) #日
+vecn17[, 5] <- rep(1:nrow(df2)) #緯度
+vecn17[, 6] <- rep(1:ncol(df2), each = nrow(ny2017)) #経度
+colnames(vecn17) <- c("sst", "year", "month", "day", "lat_tag", "lon_tag")
+sst <- rbind(vecn17, vec17)
+lat2$lat_tag <- rep(1:nrow(lat2))
+lon2$lon_tag <- rep(1:nrow(lon2))
+sst <- merge(sst, lat2, by = "lat_tag")
+sst <- merge(sst, lon2, by = "lon_tag")
+sst2 <- sst[, c("sst", "year", "month", "day", "lat", "lon")]
+sst2$sst <- sst2$sst * 0.1
+write.csv(sst2, "sst_jly2.csv", fileEncoding = "CP932")

@@ -1,0 +1,51 @@
+#####1982-2017#####
+#最新版とそれ以前のデータでは，ファイル名が異なる
+
+###古いデータ###
+#カレンダーの作成
+time = seq(as.Date("1982-01-01"), as.Date("2017-12-31"), by="days")
+##別の方法##
+as.Date("2017-12-31")-as.Date("1982-01-01") #13148days
+from = as.Date("1982-01-01")
+time = seq(from, length = 13149, by = "1 day") #カレンダーの作成
+
+#要素の抽出
+year(time[1])
+month(time[1]) #0始まりじゃない
+day(time[1]) #0始まりじゃない
+
+require(stringr)
+time2 = str_c(str_sub(time, 1, 4), str_sub(time, 6, 7), str_sub(time, 9, 10))
+time2[1]
+
+for(i in 1:length(time2)){
+  url = paste("https://www.data.jma.go.jp/gmd/goos/data/pub/JMA-product/mgd_sst_glb_D/", substr(time2[i], 1, 4), "/re_mgd_sst_glb_D", time2[i], ".txt.gz", sep = "")
+  file = paste("/Users/Yuki/Dropbox/SST/all/mgd_sst_glb_D", time2[i], ".txt.gz", sep = "")
+  download.file(url, file)
+}
+
+
+###最新のデータ###
+#カレンダーの作成
+time = seq(as.Date("2018-01-01"), as.Date("2018-12-31"), by="days")
+##別の方法##
+as.Date("2018-12-31")-as.Date("2018-01-01") #13148days
+from = as.Date("2018-01-01")
+time = seq(from, length = 13149, by = "1 day") #カレンダーの作成
+
+#要素の抽出
+require()
+year(time[1])
+month(time[1]) #0始まりじゃない
+day(time[1]) #0始まりじゃない
+
+require(stringr)
+time2 = str_c(str_sub(time, 1, 4), str_sub(time, 6, 7), str_sub(time, 9, 10))
+time2[1]
+
+for(i in 1:length(time2)){
+  url = paste("https://www.data.jma.go.jp/gmd/goos/data/pub/JMA-product/mgd_sst_glb_D/", substr(time2[i], 1, 4), "/mgd_sst_glb_D", time2[i], ".txt.gz", sep = "")
+  file = paste("/Users/Yuki/Dropbox/SST/all/mgd_sst_glb_D", time2[i], ".txt.gz", sep = "")
+  download.file(url, file)
+}
+
