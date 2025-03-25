@@ -14,10 +14,8 @@ mhws = NULL
    tag_lon = tag$lon
    tag_lat = tag$lat
    df = sst %>% filter(lon == tag_lon, lat == tag_lat)
-   df = df %>% mutate(temp = paste(year, month, day, sep = "-")) %>% mutate(date = as.Date(temp)) %>% select(-temp)
+   df = df %>% mutate(temp = paste(year, month, day, sep = "-")) %>% mutate(t= as.Date(temp)) %>% select(-temp) %>% rename(temp = SST)
    res = detect_event(ts2clm(data = df,
-                             y = SST,
-                             x = date,
                              climatologyPeriod = c("1982-01-01", "2012-12-31")))
    cate = category(res, S = FALSE, name = "doto") %>% select(event_no, category, season)
    df_event = left_join(res_doto[["event"]], cate, by = "event_no") %>% mutate(lon = tag$lon, lat = tag$lat, tag = tag$tag)
@@ -31,10 +29,8 @@ for(i in 1:nrow(lonlat)){
   tag_lon = tag$lon
   tag_lat = tag$lat
   df = sst %>% filter(lon == tag_lon, lat == tag_lat)
-  df = df %>% mutate(temp = paste(year, month, day, sep = "-")) %>% mutate(date = as.Date(temp)) %>% select(-temp)
+  df = df %>% mutate(temp = paste(year, month, day, sep = "-")) %>% mutate(t = as.Date(temp)) %>% select(-temp) %>% rename(temp = SST)
   res = detect_event(ts2clm(data = df,
-                            y = SST,
-                            x = date,
                             pctile = 10,
                             climatologyPeriod = c("1982-01-01", "2012-12-31")))
   cate = category(res, S = FALSE, name = "doto") %>% select(event_no, category, season)
