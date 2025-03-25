@@ -26,7 +26,7 @@ for(i in 1:length(time2)){
 
 ###最新のデータ###
 #カレンダーの作成
-time = seq(as.Date("2024-01-01"), as.Date("2024-12-31"), by="days")
+time = seq(as.Date("2024-05-30"), as.Date("2024-12-31"), by="days")
 
 
 time2 = str_c(str_sub(time, 1, 4), str_sub(time, 6, 7), str_sub(time, 9, 10))
@@ -45,7 +45,7 @@ for(i in 1:length(time2)){
 # .gzデータの解凍 ---------------------------------------------------------------
 # ターミナルで
 Yuki@YukinoMacBook-Pro MGDSST % cd /Users/Yuki/Dropbox/SST/all
-Yuki@YukinoMacBook-Pro all % find ./ -type f -name "*.gz" -exec gunzip {} \;
+# Yuki@YukinoMacBook-Pro all % find ./ -type f -name "*.gz" -exec gunzip {} \;
 Yuki@YukinoMacBook-Pro all % find ./ -type f -name "*.gz" -exec gunzip -f {} \;
 
 
