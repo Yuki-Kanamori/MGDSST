@@ -46,6 +46,7 @@ for(i in 1:length(time2)){
 # ターミナルで
 Yuki@YukinoMacBook-Pro MGDSST % cd /Users/Yuki/Dropbox/SST/all
 Yuki@YukinoMacBook-Pro all % find ./ -type f -name "*.gz" -exec gunzip {} \;
+Yuki@YukinoMacBook-Pro all % find ./ -type f -name "*.gz" -exec gunzip -f {} \;
 
 
 
