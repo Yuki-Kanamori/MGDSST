@@ -52,8 +52,7 @@ for(i in 1:length(fl)){
   year = str_sub(fl[i], -12, -9)
   dir_write = paste("/Users/Yuki/Dropbox/SST/all/japan/", year, "/", sep = "", collapse ="")
   setwd(dir_write)
-  getwd()
-  write.csv(df2, paste0(str_sub(fl[i], -25, -5), "_japan.csv"))
+  write.csv(df2, paste0(str_sub(fl[i], -25, -5), "_japan.csv"), row.names = FALSE)
 }
 
 
