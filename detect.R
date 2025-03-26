@@ -2,6 +2,7 @@ require(tidyverse)
 require(heatwaveR)
 
 dir = "/Users/Yuki/Dropbox/SST/all/SSTまとめ"
+dir_output = "/Users/Yuki/Dropbox/SST/MHWs"
 setwd(dir)
 sst = read_csv("sst_1982-2023.csv")
 
@@ -44,3 +45,8 @@ for(i in 1:nrow(lonlat)){
   
   mcss = rbind(mcss, df_event)
 }
+
+
+# setwd(dir_output)
+# write.csv(mhws, "mhws.csv")
+# write.csv(mcss, "mcss.csv")
