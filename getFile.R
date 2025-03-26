@@ -79,7 +79,7 @@ lon = data.frame(seq(359.875, 0, -0.25))
 colnames(lon) = "lon"
 lon$tag = rep(1:1440)
 #欲しい経度範囲
-lon2 = lon[lon$lon >= 122.25 & lon$lon <= 167.25, ]
+lon2 = lon[lon$lon >= 122.25 & lon$lon <= 150.25, ] # 小さくした
 
 
 #####データフレームの作成#####
@@ -106,5 +106,6 @@ summary(df_all)
 all = df_all %>% tidyr::gather(key = lon, value = SST, -c(ymd, lat))
 summary(all)
 all = all %>% dplyr::mutate(year = str_sub(all$ymd, 1, 4), month = str_sub(all$ymd, 5, 6), day = str_sub(all$ymd, 7, 8), lon = as.numeric(str_sub(all$lon, 1, 10)), SST = SST/10) %>% dplyr::filter(SST != 99.9)
+summary(all)
 head(all, 5)
 write.csv(all, "sst_1982-2023.csv", fileEncoding = "CP932")
