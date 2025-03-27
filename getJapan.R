@@ -55,7 +55,18 @@ for(i in 1:length(fl)){
   write.csv(df2, paste0(str_sub(fl[i], -25, -5), "_japan.csv"), row.names = FALSE)
 }
 
-
+for(i in length(fl):1){
+  df = read_fwf(file = fl[i], fwf_widths(col_names = T, widths = widths), skip = 1)
+  df2 = df[min(lat2$tag):max(lat2$tag), min(lon2$tag):max(lon2$tag)]
+  colnames(df2) = lon2$lon
+  df2$lat = rep(lat2$lat)
+  df2$ymd = rep(str_sub(fl[i], (nchar(fl[i])-11), (nchar(fl[i])-4)), each = nrow(df2))
+  
+  year = str_sub(fl[i], -12, -9)
+  dir_write = paste("/Users/Yuki/Dropbox/SST/all/japan/", year, "/", sep = "", collapse ="")
+  setwd(dir_write)
+  write.csv(df2, paste0(str_sub(fl[i], -25, -5), "_japan.csv"), row.names = FALSE)
+}
 
 
 
