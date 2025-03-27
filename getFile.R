@@ -83,6 +83,88 @@ lon2 = lon[lon$lon >= 122.25 & lon$lon <= 150.25, ] # 小さくした
 
 
 #####データフレームの作成#####
+fl[3652]
+df_8291 = c()
+for(i in 1:3652){
+  df = read_fwf(file = fl[i], fwf_widths(col_names = T, widths = widths), skip = 1)
+  df2 = df[min(lat2$tag):max(lat2$tag), min(lon2$tag):max(lon2$tag)]
+  colnames(df2) = lon2$lon
+  df2$lat = rep(lat2$lat)
+  df2$ymd = rep(str_sub(fl[i], (nchar(fl[i])-11), (nchar(fl[i])-4)), each = nrow(df2))
+  
+  df_8291 = rbind(df_8291, df2)
+}
+all = df_8291 %>% tidyr::gather(key = lon, value = SST, -c(ymd, lat))
+all = all %>% dplyr::mutate(year = str_sub(all$ymd, 1, 4), month = str_sub(all$ymd, 5, 6), day = str_sub(all$ymd, 7, 8), lon = as.numeric(str_sub(all$lon, 1, 10)), SST = SST/10) %>% dplyr::filter(SST != 99.9)
+write.csv(all, "sst_1982-1991.csv", fileEncoding = "CP932", row.names = FALSE)
+
+
+fl[3652*2+1]
+df_9201 = c()
+for(i in 3653:7305){
+  df = read_fwf(file = fl[i], fwf_widths(col_names = T, widths = widths), skip = 1)
+  df2 = df[min(lat2$tag):max(lat2$tag), min(lon2$tag):max(lon2$tag)]
+  colnames(df2) = lon2$lon
+  df2$lat = rep(lat2$lat)
+  df2$ymd = rep(str_sub(fl[i], (nchar(fl[i])-11), (nchar(fl[i])-4)), each = nrow(df2))
+  
+  df_9201 = rbind(df_9201, df2)
+}
+all = df_9201 %>% tidyr::gather(key = lon, value = SST, -c(ymd, lat))
+all = all %>% dplyr::mutate(year = str_sub(all$ymd, 1, 4), month = str_sub(all$ymd, 5, 6), day = str_sub(all$ymd, 7, 8), lon = as.numeric(str_sub(all$lon, 1, 10)), SST = SST/10) %>% dplyr::filter(SST != 99.9)
+write.csv(all, "sst_1992-2001.csv", fileEncoding = "CP932", row.names = FALSE)
+
+fl[3652*3+1]
+df_0211 = c()
+for(i in 7305:10957){
+  df = read_fwf(file = fl[i], fwf_widths(col_names = T, widths = widths), skip = 1)
+  df2 = df[min(lat2$tag):max(lat2$tag), min(lon2$tag):max(lon2$tag)]
+  colnames(df2) = lon2$lon
+  df2$lat = rep(lat2$lat)
+  df2$ymd = rep(str_sub(fl[i], (nchar(fl[i])-11), (nchar(fl[i])-4)), each = nrow(df2))
+  
+  df_0211 = rbind(df_0211, df2)
+}
+all = df_0211 %>% tidyr::gather(key = lon, value = SST, -c(ymd, lat))
+all = all %>% dplyr::mutate(year = str_sub(all$ymd, 1, 4), month = str_sub(all$ymd, 5, 6), day = str_sub(all$ymd, 7, 8), lon = as.numeric(str_sub(all$lon, 1, 10)), SST = SST/10) %>% dplyr::filter(SST != 99.9)
+write.csv(all, "sst_2002-2011.csv", fileEncoding = "CP932", row.names = FALSE)
+
+fl[3652*4+2]
+df_1221 = c()
+for(i in 10958:14610){
+  df = read_fwf(file = fl[i], fwf_widths(col_names = T, widths = widths), skip = 1)
+  df2 = df[min(lat2$tag):max(lat2$tag), min(lon2$tag):max(lon2$tag)]
+  colnames(df2) = lon2$lon
+  df2$lat = rep(lat2$lat)
+  df2$ymd = rep(str_sub(fl[i], (nchar(fl[i])-11), (nchar(fl[i])-4)), each = nrow(df2))
+  
+  df_1221 = rbind(df_1221, df2)
+}
+all = df_1221 %>% tidyr::gather(key = lon, value = SST, -c(ymd, lat))
+all = all %>% dplyr::mutate(year = str_sub(all$ymd, 1, 4), month = str_sub(all$ymd, 5, 6), day = str_sub(all$ymd, 7, 8), lon = as.numeric(str_sub(all$lon, 1, 10)), SST = SST/10) %>% dplyr::filter(SST != 99.9)
+write.csv(all, "sst_2012-2021.csv", fileEncoding = "CP932", row.names = FALSE)
+
+df_2224 = c()
+for(i in 14610:length(fl)){
+  df = read_fwf(file = fl[i], fwf_widths(col_names = T, widths = widths), skip = 1)
+  df2 = df[min(lat2$tag):max(lat2$tag), min(lon2$tag):max(lon2$tag)]
+  colnames(df2) = lon2$lon
+  df2$lat = rep(lat2$lat)
+  df2$ymd = rep(str_sub(fl[i], (nchar(fl[i])-11), (nchar(fl[i])-4)), each = nrow(df2))
+  
+  df_2224 = rbind(df_2224, df2)
+}
+all = df_2224 %>% tidyr::gather(key = lon, value = SST, -c(ymd, lat))
+all = all %>% dplyr::mutate(year = str_sub(all$ymd, 1, 4), month = str_sub(all$ymd, 5, 6), day = str_sub(all$ymd, 7, 8), lon = as.numeric(str_sub(all$lon, 1, 10)), SST = SST/10) %>% dplyr::filter(SST != 99.9)
+write.csv(all, "sst_2022-2024.csv", fileEncoding = "CP932", row.names = FALSE)
+
+
+
+
+
+
+
+
 df_all = c()
 for(i in 1:length(fl)){
   # df = readfiles(fl[i])
