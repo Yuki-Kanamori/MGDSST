@@ -72,4 +72,57 @@ for(i in 1:nrow(plot)){
     geo_left_join(sst_lonlat, max_dist = 50, unit = "km", distance_col = "distance") %>% filter(distance == min(distance))
   near = rbind(near, pairs)
 }
-write.csv(near, "near.csv", row.names = FALSE)
+# write.csv(near, "near.csv", row.names = FALSE)
+
+ap_mz = near %>% filter(plot == "AP1") %>% mutate(lon = lon.y, lat = lat.y) %>% select(lon, lat)
+mb = near %>% filter(plot == "MB1") %>% mutate(lon = lon.y, lat = lat.y) %>% select(lon, lat)
+nn = near %>% filter(plot == "NN1") %>% mutate(lon = lon.y, lat = lat.y) %>% select(lon, lat)
+mc = near %>% filter(plot == "MC1") %>% mutate(lon = lon.y, lat = lat.y) %>% select(lon, lat)
+
+# sstデータ ------------------------------------------------------------------
+dir_sst = "/Users/Yuki/Library/CloudStorage/Dropbox/SST/all/"
+setwd(dir = dir_sst)
+
+sst1 = read_csv("sst_1982-1991.csv")
+ap_mz1 = sst1 %>% filter(lon == ap_mz$lon, lat == ap_mz$lat)
+mb1 = sst1 %>% filter(lon == mb$lon, lat == mb$lat)
+nn1 = sst1 %>% filter(lon == nn$lon, lat == nn$lat)
+mc1 = sst1 %>% filter(lon == mc$lon, lat == mc$lat)
+
+sst2 = read_csv("sst_1992-2001.csv")
+ap_mz2 = sst2 %>% filter(lon == ap_mz$lon, lat == ap_mz$lat)
+mb2 = sst2 %>% filter(lon == mb$lon, lat == mb$lat)
+nn2 = sst2 %>% filter(lon == nn$lon, lat == nn$lat)
+mc2 = sst2 %>% filter(lon == mc$lon, lat == mc$lat)
+
+sst3 = read_csv("sst_2002-2011.csv")
+ap_mz3 = sst3 %>% filter(lon == ap_mz$lon, lat == ap_mz$lat)
+mb3 = sst3 %>% filter(lon == mb$lon, lat == mb$lat)
+nn3 = sst3 %>% filter(lon == nn$lon, lat == nn$lat)
+mc3 = sst3 %>% filter(lon == mc$lon, lat == mc$lat)
+
+sst4 = read_csv("sst_2012-2021.csv")
+ap_mz4 = sst4 %>% filter(lon == ap_mz$lon, lat == ap_mz$lat)
+mb4 = sst4 %>% filter(lon == mb$lon, lat == mb$lat)
+nn4 = sst4 %>% filter(lon == nn$lon, lat == nn$lat)
+mc4 = sst4 %>% filter(lon == mc$lon, lat == mc$lat)
+
+sst5 = read_csv("sst_2022-2024.csv")
+ap_mz5 = sst5 %>% filter(lon == ap_mz$lon, lat == ap_mz$lat)
+mb5 = sst5 %>% filter(lon == mb$lon, lat == mb$lat)
+nn5 = sst5 %>% filter(lon == nn$lon, lat == nn$lat)
+mc5 = sst5 %>% filter(lon == mc$lon, lat == mc$lat)
+
+sst_APMZ = rbind(ap_mz1, ap_mz2, ap_mz3, ap_mz4, ap_mz5)
+summary(sst_APMZ)
+sst_MB = rbind(mb1, mb2, mb3, mb4, mb5)
+summary(sst_MB)
+sst_NN = rbind(nn1, nn2, nn3, nn4, nn5)
+summary(sst_NN)
+sst_MC = rbind(mc1, mc2, mc3, mc4, mc5)
+summary(sst_MC)
+
+write.csv(sst_APMZ, "sst_APMZ.csv", row.names = FALSE)
+write.csv(sst_MB, "sst_MB.csv", row.names = FALSE)
+write.csv(sst_NN, "sst_NN.csv", row.names = FALSE)
+write.csv(sst_MC, "sst_MC.csv", row.names = FALSE)
