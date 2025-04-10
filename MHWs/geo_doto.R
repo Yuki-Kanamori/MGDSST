@@ -61,7 +61,7 @@ sst_lonlat = df3 %>% select(lon, lat) %>% mutate(lon = as.numeric(lon))
 
 setwd("/Users/Yuki/MGDSST/MHWs")
 plot = read.csv("doto_lonlat.csv")
-plot = plot[c(1, 6, 11, 16, 21), ]
+# plot = plot[c(1, 6, 11, 16, 21), ]
 summary(plot)
 summary(sst_lonlat)
 
